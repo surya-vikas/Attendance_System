@@ -4,7 +4,11 @@ import axios from 'axios'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import './App.css'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const normalizeBaseUrl = (url) => String(url || '').trim().replace(/\/+$/, '')
+const DEFAULT_PROD_API_URL = 'https://attendance-system-x8y6.onrender.com'
+const API_BASE_URL = normalizeBaseUrl(
+  import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000' : DEFAULT_PROD_API_URL),
+)
 
 const roleOf = (value) => String(value || '').trim().toUpperCase()
 const errorMessage = (error, fallback) => error?.response?.data?.message || fallback
